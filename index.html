@@ -1,0 +1,132 @@
+﻿<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#090d14">
+  <title>Калькулятор смен и часов</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/icon-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page">
+    <section class="panel input-panel">
+      <p class="eyebrow">Shift Planner</p>
+      <h1>Калькулятор рабочих смен</h1>
+      <p class="subtitle">Задайте стартовую дату, график, часы и стоимость часа. Календарь покажет смены, часы и заработок к сегодняшнему дню.</p>
+
+      <div class="app-actions">
+        <button id="installBtn" class="install-btn hidden" type="button">Установить приложение</button>
+        <p id="installHint" class="install-hint">Добавьте сайт на главный экран и используйте как приложение.</p>
+      </div>
+      <nav class="quick-nav" aria-label="Разделы приложения">
+        <a class="nav-chip" href="journal.html">Личный журнал смен</a>
+      </nav>
+
+      <form id="plannerForm" novalidate>
+        <label for="startDate">Первый рабочий день</label>
+        <input id="startDate" name="startDate" type="date" required>
+
+        <label for="schedulePreset">График</label>
+        <select id="schedulePreset" name="schedulePreset">
+          <option value="2/2">2/2</option>
+          <option value="5/2">5/2</option>
+          <option value="1/3">1/3</option>
+          <option value="custom">Свой график</option>
+        </select>
+
+        <div id="customSchedule" class="custom-schedule hidden" aria-hidden="true">
+          <label for="workDays">Рабочие дни подряд</label>
+          <input id="workDays" name="workDays" type="number" min="1" step="1" value="2">
+
+          <label for="restDays">Выходные дни подряд</label>
+          <input id="restDays" name="restDays" type="number" min="1" step="1" value="2">
+        </div>
+
+        <label for="hoursPerShift">Часов за смену</label>
+        <input id="hoursPerShift" name="hoursPerShift" type="number" min="0.5" step="0.5" value="12" required>
+
+        <label for="hourRate">Стоимость часа (₽)</label>
+        <input id="hourRate" name="hourRate" type="number" min="0" step="1" value="450" required>
+
+        <label for="targetMonth">Месяц расчета</label>
+        <input id="targetMonth" name="targetMonth" type="month" required>
+
+        <div class="timezone-row">
+          <label for="timeZone">Часовой пояс</label>
+          <button id="autoTimeZone" class="text-btn" type="button">Определить автоматически</button>
+        </div>
+        <select id="timeZone" name="timeZone" required></select>
+
+        <div class="extra-shifts-box">
+          <p class="extra-title">Дополнительные смены</p>
+          <div class="extra-shift-row">
+            <input id="extraShiftDate" type="date" aria-label="Дата дополнительной смены">
+            <input id="extraShiftHours" type="number" min="0.5" step="0.5" value="4" aria-label="Часы дополнительной смены">
+            <button id="addExtraShiftBtn" class="secondary-btn" type="button">Добавить</button>
+          </div>
+          <p class="extra-hint">Укажите день и количество доп. часов.</p>
+          <ul id="extraShiftList" class="extra-shift-list"></ul>
+        </div>
+
+        <button type="submit">Посчитать</button>
+        <p id="errorBox" class="error hidden" role="alert"></p>
+      </form>
+    </section>
+
+    <section class="panel result-panel">
+      <div class="stats-wrap">
+        <div class="stats">
+          <article class="stat-card">
+            <p class="stat-label">Рабочих смен</p>
+            <p id="shiftCount" class="stat-value">0</p>
+          </article>
+          <article class="stat-card">
+            <p class="stat-label">Часов за месяц</p>
+            <p id="hourCount" class="stat-value">0</p>
+          </article>
+          <article class="stat-card">
+            <p class="stat-label">Доп. часов</p>
+            <p id="extraHoursCount" class="stat-value">0</p>
+          </article>
+          <article class="stat-card">
+            <p class="stat-label">Выходных дней</p>
+            <p id="restCount" class="stat-value">0</p>
+          </article>
+          <article class="stat-card accent-card">
+            <p class="stat-label">Доход за месяц</p>
+            <p id="incomeCount" class="stat-value">0 ₽</p>
+          </article>
+          <article class="stat-card accent-card soft">
+            <p class="stat-label">Заработано к сегодня</p>
+            <p id="earnedToDate" class="stat-value">0 ₽</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="month-header">
+        <h2 id="monthTitle">Календарь месяца</h2>
+        <p id="patternInfo">График: 2/2</p>
+      </div>
+      <p id="todayInfo" class="today-info">Сегодня по выбранному часовому поясу: -</p>
+
+      <div class="calendar-shell">
+        <div id="calendar" class="calendar" aria-live="polite"></div>
+      </div>
+
+      <div class="legend">
+        <span><i class="dot work"></i>Рабочий день</span>
+        <span><i class="dot rest"></i>Выходной</span>
+        <span><i class="dot extra"></i>Доп. смена</span>
+        <span><i class="dot today"></i>Сегодня</span>
+        <span><i class="dot money"></i>Есть начисление</span>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

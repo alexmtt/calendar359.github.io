@@ -1,0 +1,151 @@
+﻿<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#090d14">
+  <title>Личный журнал смен</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/icon-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="journal.css">
+</head>
+<body>
+  <main class="journal-page">
+    <header class="panel hero-panel">
+      <div class="hero-top">
+        <p class="eyebrow">Personal Shift Log</p>
+        <a class="nav-chip" href="index.html">К калькулятору</a>
+      </div>
+      <h1>Личный журнал смен</h1>
+      <p class="subtitle">Отмечайте обычные и дополнительные смены по дням, задавайте длительность каждой и получайте полную статистику по часам.</p>
+    </header>
+
+    <section id="authPanel" class="panel auth-panel">
+      <div id="registerBlock" class="auth-block">
+        <h2>Регистрация профиля</h2>
+        <p class="muted">Профиль хранится только на этом устройстве.</p>
+        <form id="registerForm" novalidate>
+          <label for="registerName">Логин</label>
+          <input id="registerName" name="registerName" type="text" minlength="3" maxlength="32" required>
+
+          <label for="registerPin">PIN-код (4+ символа)</label>
+          <input id="registerPin" name="registerPin" type="password" minlength="4" maxlength="64" required>
+
+          <label for="registerPinRepeat">Повтор PIN-кода</label>
+          <input id="registerPinRepeat" name="registerPinRepeat" type="password" minlength="4" maxlength="64" required>
+
+          <button type="submit">Создать профиль</button>
+        </form>
+      </div>
+
+      <div id="loginBlock" class="auth-block hidden">
+        <h2>Вход</h2>
+        <p id="loginHint" class="muted">Введите данные профиля.</p>
+        <form id="loginForm" novalidate>
+          <label for="loginName">Логин</label>
+          <input id="loginName" name="loginName" type="text" required>
+
+          <label for="loginPin">PIN-код</label>
+          <input id="loginPin" name="loginPin" type="password" required>
+
+          <button type="submit">Войти</button>
+        </form>
+      </div>
+
+      <p id="authError" class="error hidden" role="alert"></p>
+    </section>
+
+    <section id="workspacePanel" class="panel workspace hidden">
+      <div class="workspace-top">
+        <div>
+          <p class="mini-label">Профиль</p>
+          <h2 id="profileName">-</h2>
+        </div>
+        <div class="workspace-actions">
+          <button id="logoutBtn" class="secondary-btn" type="button">Выйти</button>
+          <button id="deleteAccountBtn" class="danger-btn" type="button">Удалить профиль</button>
+        </div>
+      </div>
+
+      <div class="month-controls">
+        <label for="journalMonth">Месяц журнала</label>
+        <div class="month-row">
+          <input id="journalMonth" name="journalMonth" type="month" required>
+          <button id="currentMonthBtn" class="secondary-btn" type="button">Текущий</button>
+        </div>
+      </div>
+
+      <div class="time-settings">
+        <article class="time-card">
+          <label for="baseShiftHours">Время обычной смены (ч)</label>
+          <input id="baseShiftHours" type="number" min="0.5" step="0.5" value="12">
+        </article>
+        <article class="time-card">
+          <label for="extraShiftHours">Время доп. смены (ч)</label>
+          <input id="extraShiftHours" type="number" min="0.5" step="0.5" value="4">
+        </article>
+      </div>
+
+      <div class="summary">
+        <article class="summary-card">
+          <p class="mini-label">Обычных смен (мес.)</p>
+          <p id="monthRegularShiftCount" class="summary-value">0</p>
+        </article>
+        <article class="summary-card extra-tone">
+          <p class="mini-label">Доп. смен (мес.)</p>
+          <p id="monthExtraShiftCount" class="summary-value">0</p>
+        </article>
+        <article class="summary-card">
+          <p class="mini-label">Часов за месяц</p>
+          <p id="monthTotalHours" class="summary-value">0</p>
+        </article>
+        <article class="summary-card">
+          <p class="mini-label">Часов за всё время</p>
+          <p id="allTimeTotalHours" class="summary-value">0</p>
+        </article>
+        <article class="summary-card">
+          <p class="mini-label">Дней со сменами</p>
+          <p id="workedDayCount" class="summary-value">0</p>
+        </article>
+        <article class="summary-card">
+          <p class="mini-label">Последнее изменение</p>
+          <p id="updatedAtLabel" class="summary-value small">-</p>
+        </article>
+      </div>
+
+      <div class="day-editor">
+        <p id="selectedDateLabel" class="editor-title">Выберите день в календаре</p>
+        <div class="editor-fields">
+          <div>
+            <label for="selectedRegularShiftCount">Обычные смены</label>
+            <input id="selectedRegularShiftCount" type="number" min="0" step="1" value="0">
+          </div>
+          <div>
+            <label for="selectedExtraShiftCount">Доп. смены</label>
+            <input id="selectedExtraShiftCount" type="number" min="0" step="1" value="0">
+          </div>
+        </div>
+        <div class="editor-actions">
+          <button id="saveDayBtn" type="button">Сохранить</button>
+          <button id="clearDayBtn" class="secondary-btn" type="button">Очистить</button>
+        </div>
+        <p class="muted">Доп. смены отмечаются отдельным цветом в календаре.</p>
+      </div>
+
+      <div id="journalCalendar" class="calendar" aria-live="polite"></div>
+      <div class="legend">
+        <span><i class="dot regular"></i>Обычная смена</span>
+        <span><i class="dot extra"></i>Доп. смена</span>
+        <span><i class="dot mixed"></i>Обе смены в день</span>
+        <span><i class="dot today"></i>Сегодня</span>
+      </div>
+
+      <p id="journalStatus" class="status"></p>
+    </section>
+  </main>
+
+  <script src="journal.js"></script>
+</body>
+</html>
