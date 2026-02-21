@@ -1,4 +1,4 @@
-﻿const CACHE_NAME = "shift-planner-v3";
+﻿const CACHE_NAME = "shift-planner-v6";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -72,4 +72,7 @@ self.addEventListener("fetch", (event) => {
     })
   );
 });
+
+
+
 

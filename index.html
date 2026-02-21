@@ -11,7 +11,7 @@
   <link rel="apple-touch-icon" href="icons/icon-192.png">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="calculator-page">
   <main class="page">
     <section class="panel input-panel">
       <p class="eyebrow">Shift Planner</p>
@@ -19,11 +19,17 @@
       <p class="subtitle">Задайте стартовую дату, график, часы и стоимость часа. Календарь покажет смены, часы и заработок к сегодняшнему дню.</p>
 
       <div class="app-actions">
-        <button id="installBtn" class="install-btn hidden" type="button">Установить приложение</button>
+        <button id="installBtn" class="install-btn hidden" type="button">
+          <span class="btn-icon btn-icon-download" aria-hidden="true"></span>
+          <span>Установить приложение</span>
+        </button>
         <p id="installHint" class="install-hint">Добавьте сайт на главный экран и используйте как приложение.</p>
       </div>
       <nav class="quick-nav" aria-label="Разделы приложения">
-        <a class="nav-chip" href="journal.html">Личный журнал смен</a>
+        <a class="nav-chip" href="journal.html">
+          <span class="chip-icon chip-icon-journal" aria-hidden="true"></span>
+          <span>Личный журнал смен</span>
+        </a>
       </nav>
 
       <form id="plannerForm" novalidate>
@@ -126,6 +132,17 @@
       </div>
     </section>
   </main>
+
+  <nav class="mobile-dock" aria-label="Мобильная навигация">
+    <a class="dock-link active" href="index.html">
+      <span class="dock-icon dock-icon-calc" aria-hidden="true"></span>
+      <span>Калькулятор</span>
+    </a>
+    <a class="dock-link" href="journal.html">
+      <span class="dock-icon dock-icon-journal" aria-hidden="true"></span>
+      <span>Журнал</span>
+    </a>
+  </nav>
 
   <script src="script.js"></script>
 </body>

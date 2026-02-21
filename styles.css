@@ -1,4 +1,4 @@
-﻿@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap");
+﻿@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@500;700;800&display=swap");
 
 :root {
   --bg: #090d14;
@@ -13,6 +13,8 @@
   --money: #f8d66d;
   --danger: #ff6f7f;
   --shadow: 0 30px 60px -35px #000;
+  --dock-bg: #0e1828f2;
+  --dock-border: #2f4f7c;
 }
 
 * {
@@ -33,6 +35,7 @@ body {
     radial-gradient(90% 100% at 0% 0%, #25375e55 0%, #090d14 62%),
     radial-gradient(100% 80% at 100% 0%, #123d3c66 0%, transparent 62%),
     linear-gradient(150deg, #090d14 0%, #0c1320 38%, #090d14 100%);
+  padding-bottom: 16px;
 }
 
 .page {
@@ -43,12 +46,17 @@ body {
   gap: 24px;
 }
 
+.page > * {
+  min-width: 0;
+}
+
 .panel {
   border: 1px solid var(--panel-border);
   border-radius: 20px;
   background: var(--panel);
   backdrop-filter: blur(8px);
   box-shadow: var(--shadow);
+  min-width: 0;
 }
 
 .input-panel {
@@ -82,6 +90,7 @@ h1 {
   margin: 0;
   color: var(--muted);
   font-size: 15px;
+  overflow-wrap: anywhere;
 }
 
 .app-actions {
@@ -104,6 +113,10 @@ h1 {
   padding: 10px 12px;
   width: 100%;
   transition: transform 140ms ease, filter 140ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .install-btn:hover {
@@ -145,6 +158,86 @@ h1 {
 form {
   display: grid;
   gap: 10px;
+}
+
+.btn-icon,
+.chip-icon,
+.dock-icon {
+  display: inline-block;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.btn-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.btn-icon-download::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 2px;
+  width: 4px;
+  height: 9px;
+  border-radius: 2px;
+  background: #0a1821;
+}
+
+.btn-icon-download::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  bottom: 3px;
+  width: 10px;
+  height: 10px;
+  border-right: 3px solid #0a1821;
+  border-bottom: 3px solid #0a1821;
+  transform: rotate(45deg);
+}
+
+.chip-icon {
+  width: 17px;
+  height: 17px;
+  border: 1.5px solid currentColor;
+  border-radius: 4px;
+  opacity: 0.92;
+}
+
+.chip-icon::before,
+.chip-icon::after {
+  content: "";
+  position: absolute;
+}
+
+.chip-icon-journal::before {
+  left: 3px;
+  right: 3px;
+  top: 4px;
+  height: 1.5px;
+  background: currentColor;
+  box-shadow: 0 4px 0 currentColor, 0 8px 0 currentColor;
+}
+
+.chip-icon-calc::before {
+  left: 3px;
+  right: 3px;
+  top: 3px;
+  height: 3px;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+.chip-icon-calc::after {
+  left: 3px;
+  right: 3px;
+  bottom: 3px;
+  top: 8px;
+  background:
+    linear-gradient(currentColor, currentColor) left 0 top 0 / 100% 1.5px no-repeat,
+    linear-gradient(currentColor, currentColor) left 0 top 50% / 100% 1.5px no-repeat,
+    linear-gradient(currentColor, currentColor) left 33% top 0 / 1.5px 100% no-repeat,
+    linear-gradient(currentColor, currentColor) left 66% top 0 / 1.5px 100% no-repeat;
 }
 
 label {
@@ -271,6 +364,14 @@ button[type="submit"]:hover {
   border: 1px solid #2a4263;
   background: #101f33;
   padding: 7px 9px;
+  min-width: 0;
+}
+
+.extra-shift-item span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .extra-shift-empty {
@@ -331,6 +432,7 @@ button[type="submit"]:hover {
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 12px;
   margin-bottom: 20px;
+  min-width: 0;
 }
 
 .stat-card {
@@ -339,6 +441,8 @@ button[type="submit"]:hover {
   padding: 13px 14px;
   border: 1px solid #294067;
   background: linear-gradient(170deg, #17253b 0%, #101a2b 100%);
+  min-width: 0;
+  overflow: hidden;
 }
 
 .stat-card.accent-card {
@@ -355,13 +459,15 @@ button[type="submit"]:hover {
   margin: 0;
   color: var(--muted);
   font-size: 12px;
+  overflow-wrap: anywhere;
 }
 
 .stat-value {
   margin: 7px 0 0;
   font-family: "Space Grotesk", "DM Sans", sans-serif;
-  font-size: clamp(22px, 2.2vw, 30px);
-  line-height: 1.05;
+  font-size: clamp(20px, 2vw, 30px);
+  line-height: 1.12;
+  overflow-wrap: anywhere;
 }
 
 .month-header {
@@ -383,12 +489,14 @@ h2 {
   color: var(--muted);
   font-size: 14px;
   text-align: right;
+  overflow-wrap: anywhere;
 }
 
 .today-info {
   margin: 0 0 12px;
   color: #b7c6e0;
   font-size: 13px;
+  overflow-wrap: anywhere;
 }
 
 .calendar {
@@ -424,6 +532,7 @@ h2 {
   font-family: "Space Grotesk", "DM Sans", sans-serif;
   font-size: 19px;
   line-height: 1;
+  overflow-wrap: anywhere;
 }
 
 .day-type {
@@ -440,12 +549,17 @@ h2 {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .day-extra {
   margin-top: 4px;
   font-size: 10px;
   color: #9ec0ff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .day-total {
@@ -524,6 +638,12 @@ h2 {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  padding: 5px 8px;
+  border-radius: 10px;
+  background: #0f1a2b;
+  border: 1px solid #2a4266;
 }
 
 .dot {
@@ -550,6 +670,85 @@ h2 {
 
 .dot.money {
   background: var(--money);
+}
+
+.mobile-dock {
+  position: fixed;
+  left: 10px;
+  right: 10px;
+  bottom: max(10px, env(safe-area-inset-bottom));
+  border-radius: 16px;
+  border: 1px solid var(--dock-border);
+  background: var(--dock-bg);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 18px 32px -24px #000;
+  padding: 8px;
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  z-index: 40;
+}
+
+.dock-link {
+  text-decoration: none;
+  color: #bed2f5;
+  border-radius: 11px;
+  border: 1px solid transparent;
+  padding: 8px 8px 7px;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  font-size: 11px;
+  line-height: 1.1;
+}
+
+.dock-link.active {
+  color: #e9f2ff;
+  background: #16304f;
+  border-color: #4e78b2;
+}
+
+.dock-icon {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid currentColor;
+  border-radius: 4px;
+}
+
+.dock-icon::before,
+.dock-icon::after {
+  content: "";
+  position: absolute;
+}
+
+.dock-icon-calc::before {
+  left: 3px;
+  right: 3px;
+  top: 3px;
+  height: 3px;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+.dock-icon-calc::after {
+  left: 3px;
+  right: 3px;
+  top: 8px;
+  bottom: 3px;
+  background:
+    linear-gradient(currentColor, currentColor) left 0 top 0 / 100% 1.5px no-repeat,
+    linear-gradient(currentColor, currentColor) left 0 top 50% / 100% 1.5px no-repeat,
+    linear-gradient(currentColor, currentColor) left 33% top 0 / 1.5px 100% no-repeat,
+    linear-gradient(currentColor, currentColor) left 66% top 0 / 1.5px 100% no-repeat;
+}
+
+.dock-icon-journal::before {
+  left: 3px;
+  right: 3px;
+  top: 4px;
+  height: 1.5px;
+  background: currentColor;
+  box-shadow: 0 4px 0 currentColor, 0 8px 0 currentColor;
 }
 
 @media (max-width: 1100px) {
@@ -584,6 +783,10 @@ h2 {
 }
 
 @media (max-width: 640px) {
+  body {
+    padding-bottom: 86px;
+  }
+
   .page {
     width: min(100vw - 14px, 100%);
     margin: max(10px, env(safe-area-inset-top)) auto max(10px, env(safe-area-inset-bottom));
@@ -655,7 +858,7 @@ h2 {
   }
 
   .stat-value {
-    font-size: clamp(22px, 6vw, 28px);
+    font-size: clamp(18px, 5.2vw, 26px);
   }
 
   .today-info {
@@ -730,6 +933,10 @@ h2 {
     font-size: 12px;
   }
 
+  .legend span {
+    min-width: 0;
+  }
+
   .timezone-row {
     align-items: center;
   }
@@ -754,12 +961,16 @@ h2 {
   }
 
   .quick-nav {
-    display: flex;
+    display: none;
   }
 
   .nav-chip {
     width: 100%;
     justify-content: center;
+  }
+
+  .mobile-dock {
+    display: grid;
   }
 }
 
@@ -812,3 +1023,170 @@ h2 {
     transform: translateY(0);
   }
 }
+
+/* Telegram-inspired visual skin */
+:root {
+  --tg-bg: #0f1721;
+  --tg-bg-2: #101b27;
+  --tg-surface: #17212b;
+  --tg-surface-2: #1f2c39;
+  --tg-border: #2b3b4b;
+  --tg-text: #e8eff7;
+  --tg-muted: #93a8bc;
+  --tg-blue: #65b8ff;
+  --tg-blue-2: #8bcaff;
+  --tg-green: #73d8ae;
+  --tg-orange: #f2b672;
+}
+
+body.calculator-page {
+  color: var(--tg-text);
+  font-family: "Manrope", "Segoe UI", sans-serif;
+  background:
+    radial-gradient(90% 120% at 0% 0%, #27405b66 0%, #0f1721 56%),
+    radial-gradient(85% 95% at 100% 0%, #123a4e4d 0%, transparent 62%),
+    linear-gradient(170deg, var(--tg-bg) 0%, var(--tg-bg-2) 100%);
+}
+
+body.calculator-page h1,
+body.calculator-page h2,
+body.calculator-page .stat-value,
+body.calculator-page .day-number {
+  font-family: "Outfit", "Manrope", sans-serif;
+  letter-spacing: 0.01em;
+}
+
+body.calculator-page .panel {
+  background: linear-gradient(180deg, #16212dcc 0%, #151f2acc 100%);
+  border-color: var(--tg-border);
+  box-shadow: 0 24px 50px -34px #000;
+}
+
+body.calculator-page .subtitle,
+body.calculator-page .install-hint,
+body.calculator-page #patternInfo,
+body.calculator-page .today-info,
+body.calculator-page label,
+body.calculator-page .extra-hint,
+body.calculator-page .legend,
+body.calculator-page .day-type,
+body.calculator-page .day-income,
+body.calculator-page .day-extra {
+  color: var(--tg-muted);
+}
+
+body.calculator-page .app-actions,
+body.calculator-page .custom-schedule,
+body.calculator-page .extra-shifts-box {
+  background: #1a2633;
+  border-color: #31465c;
+}
+
+body.calculator-page input,
+body.calculator-page select,
+body.calculator-page button {
+  border-radius: 13px;
+  border-color: #35506b;
+  background: #192736;
+  color: var(--tg-text);
+}
+
+body.calculator-page input:focus,
+body.calculator-page select:focus,
+body.calculator-page button:focus-visible {
+  border-color: var(--tg-blue);
+  outline-color: var(--tg-blue);
+}
+
+body.calculator-page button[type="submit"] {
+  background: linear-gradient(130deg, var(--tg-blue) 0%, var(--tg-blue-2) 100%);
+  color: #072033;
+}
+
+body.calculator-page .install-btn {
+  background: linear-gradient(130deg, #78c7ff 0%, #92d4ff 100%);
+  border-color: #5ba6db;
+}
+
+body.calculator-page .nav-chip,
+body.calculator-page .dock-link.active {
+  background: #203244;
+  border-color: #48698a;
+  color: #e2eefb;
+}
+
+body.calculator-page .stat-card {
+  background: linear-gradient(170deg, #1a2735 0%, #172331 100%);
+  border-color: #314b66;
+}
+
+body.calculator-page .stat-card.accent-card {
+  background: linear-gradient(170deg, #1d2f42 0%, #18273a 100%);
+  border-color: #3d5a79;
+}
+
+body.calculator-page .stat-card.accent-card.soft {
+  background: linear-gradient(170deg, #3a2f1f 0%, #292114 100%);
+  border-color: #6d5533;
+}
+
+body.calculator-page .calendar .weekday {
+  color: #9bb0c4;
+}
+
+body.calculator-page .day-card {
+  background: #1a2836;
+  border-color: #30455c;
+}
+
+body.calculator-page .day-card.work-day {
+  background: linear-gradient(180deg, #18332a 0%, #16292a 100%);
+  border-color: #3f7f6f;
+}
+
+body.calculator-page .day-card.work-day .day-number {
+  color: var(--tg-green);
+}
+
+body.calculator-page .day-card.rest-day {
+  background: linear-gradient(180deg, #332317 0%, #221911 100%);
+  border-color: #7d5940;
+}
+
+body.calculator-page .day-card.rest-day .day-number {
+  color: var(--tg-orange);
+}
+
+body.calculator-page .day-card.has-extra {
+  box-shadow: inset 0 0 0 1px #6c8eb8;
+}
+
+body.calculator-page .legend span {
+  background: #1b2a39;
+  border-color: #35506b;
+}
+
+body.calculator-page .mobile-dock {
+  border-color: #3a5a7f;
+  background: #162434f2;
+}
+
+@media (max-width: 640px) {
+  body.calculator-page .panel {
+    border-radius: 18px;
+  }
+
+  body.calculator-page .day-card,
+  body.calculator-page .empty-cell {
+    min-height: 58px;
+  }
+
+  body.calculator-page .day-number {
+    font-size: 16px;
+  }
+
+  body.calculator-page .stat-value {
+    font-size: clamp(19px, 5.2vw, 25px);
+  }
+}
+

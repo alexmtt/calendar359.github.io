@@ -1,4 +1,4 @@
-﻿@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap");
+﻿@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@500;700;800&display=swap");
 
 :root {
   --text: #f3f6fb;
@@ -10,6 +10,8 @@
   --extra: #ffb36e;
   --danger: #ff6f7f;
   --shadow: 0 30px 60px -35px #000;
+  --dock-bg: #0e1828f2;
+  --dock-border: #2f4f7c;
 }
 
 * {
@@ -30,6 +32,7 @@ body {
     radial-gradient(90% 100% at 0% 0%, #25375e55 0%, #090d14 62%),
     radial-gradient(100% 80% at 100% 0%, #123d3c66 0%, transparent 62%),
     linear-gradient(150deg, #090d14 0%, #0c1320 38%, #090d14 100%);
+  padding-bottom: 16px;
 }
 
 .journal-page {
@@ -39,6 +42,10 @@ body {
   gap: 16px;
 }
 
+.journal-page > * {
+  min-width: 0;
+}
+
 .panel {
   border: 1px solid var(--panel-border);
   border-radius: 18px;
@@ -46,6 +53,7 @@ body {
   backdrop-filter: blur(8px);
   box-shadow: var(--shadow);
   padding: 18px;
+  min-width: 0;
 }
 
 .hero-top {
@@ -78,6 +86,7 @@ h2 {
   margin: 0;
   color: var(--muted);
   font-size: 15px;
+  overflow-wrap: anywhere;
 }
 
 .nav-chip {
@@ -89,10 +98,64 @@ h2 {
   border-radius: 999px;
   font-size: 13px;
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .nav-chip:hover {
   background: #17304d;
+}
+
+.chip-icon,
+.dock-icon {
+  display: inline-block;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.chip-icon {
+  width: 17px;
+  height: 17px;
+  border: 1.5px solid currentColor;
+  border-radius: 4px;
+  opacity: 0.92;
+}
+
+.chip-icon::before,
+.chip-icon::after {
+  content: "";
+  position: absolute;
+}
+
+.chip-icon-journal::before {
+  left: 3px;
+  right: 3px;
+  top: 4px;
+  height: 1.5px;
+  background: currentColor;
+  box-shadow: 0 4px 0 currentColor, 0 8px 0 currentColor;
+}
+
+.chip-icon-calc::before {
+  left: 3px;
+  right: 3px;
+  top: 3px;
+  height: 3px;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+.chip-icon-calc::after {
+  left: 3px;
+  right: 3px;
+  bottom: 3px;
+  top: 8px;
+  background:
+    linear-gradient(currentColor, currentColor) left 0 top 0 / 100% 1.5px no-repeat,
+    linear-gradient(currentColor, currentColor) left 0 top 50% / 100% 1.5px no-repeat,
+    linear-gradient(currentColor, currentColor) left 33% top 0 / 1.5px 100% no-repeat,
+    linear-gradient(currentColor, currentColor) left 66% top 0 / 1.5px 100% no-repeat;
 }
 
 .auth-panel {
@@ -173,6 +236,7 @@ button {
 .workspace {
   display: grid;
   gap: 14px;
+  min-width: 0;
 }
 
 .workspace-top {
@@ -190,6 +254,8 @@ button {
 .workspace-actions button {
   width: auto;
   min-width: 96px;
+  white-space: normal;
+  text-wrap: balance;
 }
 
 .mini-label {
@@ -238,6 +304,7 @@ button {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
+  min-width: 0;
 }
 
 .summary-card {
@@ -246,6 +313,8 @@ button {
   border: 1px solid #2c4369;
   background: linear-gradient(170deg, #15263f 0%, #101a2b 100%);
   padding: 11px 12px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .summary-card.extra-tone {
@@ -257,7 +326,8 @@ button {
   margin: 6px 0 0;
   font-family: "Space Grotesk", "DM Sans", sans-serif;
   font-size: clamp(20px, 2.7vw, 28px);
-  line-height: 1.05;
+  line-height: 1.12;
+  overflow-wrap: anywhere;
 }
 
 .summary-value.small {
@@ -370,16 +440,25 @@ button {
   font-family: "Space Grotesk", "DM Sans", sans-serif;
   font-size: 18px;
   line-height: 1;
+  overflow-wrap: anywhere;
 }
 
 .day-main {
   font-size: 11px;
   color: #dbe8ff;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .day-hours {
   font-size: 10px;
   color: #a7bddf;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .day-cell.extra-only .day-main,
@@ -406,6 +485,12 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  padding: 5px 8px;
+  border-radius: 10px;
+  border: 1px solid #2a4266;
+  background: #0f1a2b;
 }
 
 .dot {
@@ -444,6 +529,85 @@ button {
   color: #f0b3bf;
 }
 
+.mobile-dock {
+  position: fixed;
+  left: 10px;
+  right: 10px;
+  bottom: max(10px, env(safe-area-inset-bottom));
+  border-radius: 16px;
+  border: 1px solid var(--dock-border);
+  background: var(--dock-bg);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 18px 32px -24px #000;
+  padding: 8px;
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  z-index: 40;
+}
+
+.dock-link {
+  text-decoration: none;
+  color: #bed2f5;
+  border-radius: 11px;
+  border: 1px solid transparent;
+  padding: 8px 8px 7px;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  font-size: 11px;
+  line-height: 1.1;
+}
+
+.dock-link.active {
+  color: #e9f2ff;
+  background: #16304f;
+  border-color: #4e78b2;
+}
+
+.dock-icon {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid currentColor;
+  border-radius: 4px;
+}
+
+.dock-icon::before,
+.dock-icon::after {
+  content: "";
+  position: absolute;
+}
+
+.dock-icon-calc::before {
+  left: 3px;
+  right: 3px;
+  top: 3px;
+  height: 3px;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+.dock-icon-calc::after {
+  left: 3px;
+  right: 3px;
+  top: 8px;
+  bottom: 3px;
+  background:
+    linear-gradient(currentColor, currentColor) left 0 top 0 / 100% 1.5px no-repeat,
+    linear-gradient(currentColor, currentColor) left 0 top 50% / 100% 1.5px no-repeat,
+    linear-gradient(currentColor, currentColor) left 33% top 0 / 1.5px 100% no-repeat,
+    linear-gradient(currentColor, currentColor) left 66% top 0 / 1.5px 100% no-repeat;
+}
+
+.dock-icon-journal::before {
+  left: 3px;
+  right: 3px;
+  top: 4px;
+  height: 1.5px;
+  background: currentColor;
+  box-shadow: 0 4px 0 currentColor, 0 8px 0 currentColor;
+}
+
 @media (max-width: 860px) {
   .workspace-top {
     flex-direction: column;
@@ -478,6 +642,10 @@ button {
 }
 
 @media (max-width: 640px) {
+  body {
+    padding-bottom: 86px;
+  }
+
   .journal-page {
     width: min(100vw - 14px, 100%);
     margin: max(10px, env(safe-area-inset-top)) auto max(10px, env(safe-area-inset-bottom));
@@ -530,4 +698,160 @@ button {
     gap: 10px;
     font-size: 11px;
   }
+
+  .legend span {
+    min-width: 0;
+  }
+
+  .hero-top .nav-chip {
+    display: none;
+  }
+
+  .mobile-dock {
+    display: grid;
+  }
 }
+
+/* Telegram-inspired visual skin */
+body.journal-screen {
+  color: var(--tg-text, #e8eff7);
+  font-family: "Manrope", "Segoe UI", sans-serif;
+  background:
+    radial-gradient(90% 120% at 0% 0%, #27405b66 0%, #0f1721 56%),
+    radial-gradient(85% 95% at 100% 0%, #123a4e4d 0%, transparent 62%),
+    linear-gradient(170deg, #0f1721 0%, #101b27 100%);
+}
+
+body.journal-screen h1,
+body.journal-screen h2,
+body.journal-screen .summary-value,
+body.journal-screen .day-num {
+  font-family: "Outfit", "Manrope", sans-serif;
+  letter-spacing: 0.01em;
+}
+
+body.journal-screen .panel {
+  background: linear-gradient(180deg, #16212dcc 0%, #151f2acc 100%);
+  border-color: #2b3b4b;
+  box-shadow: 0 24px 50px -34px #000;
+}
+
+body.journal-screen .subtitle,
+body.journal-screen .muted,
+body.journal-screen .mini-label,
+body.journal-screen label,
+body.journal-screen .legend,
+body.journal-screen .day-main,
+body.journal-screen .day-hours {
+  color: #93a8bc;
+}
+
+body.journal-screen input,
+body.journal-screen button {
+  border-radius: 13px;
+  border-color: #35506b;
+  background: #192736;
+  color: #e8eff7;
+}
+
+body.journal-screen input:focus,
+body.journal-screen button:focus-visible {
+  border-color: #65b8ff;
+  outline-color: #65b8ff;
+}
+
+body.journal-screen button {
+  background: linear-gradient(130deg, #65b8ff 0%, #8bcaff 100%);
+  color: #072033;
+}
+
+body.journal-screen .secondary-btn {
+  background: #223447;
+  border-color: #4a6a8c;
+  color: #e2eefb;
+}
+
+body.journal-screen .danger-btn {
+  background: #3a1f24;
+  border-color: #7d404b;
+  color: #ffdbe1;
+}
+
+body.journal-screen .nav-chip,
+body.journal-screen .dock-link.active {
+  background: #203244;
+  border-color: #48698a;
+  color: #e2eefb;
+}
+
+body.journal-screen .time-card,
+body.journal-screen .summary-card,
+body.journal-screen .day-editor {
+  background: #1a2836;
+  border-color: #314b66;
+}
+
+body.journal-screen .summary-card.extra-tone {
+  background: linear-gradient(170deg, #3a2f1f 0%, #292114 100%);
+  border-color: #6d5533;
+}
+
+body.journal-screen .calendar .weekday {
+  color: #9bb0c4;
+}
+
+body.journal-screen .day-cell {
+  background: #1a2836;
+  border-color: #30455c;
+}
+
+body.journal-screen .day-cell.reg-lvl-1 {
+  background: linear-gradient(180deg, #193429 0%, #18292b 100%);
+  border-color: #3f7f6f;
+}
+
+body.journal-screen .day-cell.reg-lvl-2,
+body.journal-screen .day-cell.reg-lvl-3,
+body.journal-screen .day-cell.reg-lvl-4 {
+  background: linear-gradient(180deg, #1b3c30 0%, #172b2d 100%);
+  border-color: #4a9782;
+}
+
+body.journal-screen .day-cell.extra-only {
+  background: linear-gradient(180deg, #3a2a1b 0%, #221a13 100%);
+  border-color: #c07a40;
+}
+
+body.journal-screen .day-cell.mixed-day {
+  border-color: #be9044;
+  background:
+    linear-gradient(160deg, #1b3a2f 0%, #1b3a2f 52%, #3a2a1b 52%, #3a2a1b 100%);
+}
+
+body.journal-screen .legend span {
+  padding: 5px 8px;
+  border-radius: 10px;
+  border: 1px solid #35506b;
+  background: #1b2a39;
+}
+
+body.journal-screen .mobile-dock {
+  border-color: #3a5a7f;
+  background: #162434f2;
+}
+
+@media (max-width: 640px) {
+  body.journal-screen .panel {
+    border-radius: 18px;
+  }
+
+  body.journal-screen .day-cell,
+  body.journal-screen .empty-cell {
+    min-height: 64px;
+  }
+
+  body.journal-screen .day-num {
+    font-size: 16px;
+  }
+}
+

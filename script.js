@@ -674,7 +674,7 @@ function calculateMonth() {
   earnedToDate.textContent = formatMoney(earnedSoFar);
 
   monthTitle.textContent = `${monthNames[monthIndex]} ${year}`;
-  patternInfo.textContent = `График: ${pattern.label} | ${formatNumber(hoursPerShift)} ч/смена | доп.: ${formatNumber(extraHoursTotal)} ч | ${formatMoney(hourRate)}/ч`;
+  patternInfo.textContent = `График ${pattern.label} · ${formatNumber(hoursPerShift)} ч/смена · доп ${formatNumber(extraHoursTotal)} ч · ${formatMoney(hourRate)}/ч`;
   todayInfo.textContent = `Сегодня по выбранному часовому поясу: ${formatTodayLabel(today, timeZoneSelect.value)}`;
 
   renderCalendar(days, firstWeekdayIndex);
